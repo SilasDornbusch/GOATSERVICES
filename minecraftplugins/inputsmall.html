@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOAT Services</title>
+    <link rel="stylesheet" href="input_style.css">
+</head>
+<body>
+    <header>
+        
+    </header>
+    <div id="container">
+        <h1 class="goat_services">Konfiguriere deinen Auftrag</h1>
+        <input type="text" id="taskInputCommands" placeholder="Maximal 5 Commands eingeben">
+        <input type="text" id="taskInputListeners" placeholder="Maximal 5 Listener eingeben">
+        <input id="email" placeholder=„email@email.com“>
+        <div class="item absenden" onclick="sendMessage()" style="cursor: pointer;">
+            <div class="title-container">
+              <img class="title-item title-img" src="">
+              <p id="absenden" class="title-item title-txt"> <b>ABSENDEN</b> </p>
+            </div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const webhookURL = 'https://discord.com/api/webhooks/1221095747441655898/bizMG_1Pn4mebybxnpe4auWRz3dUKxXfUACQsmxrrpN1pvkHA7dkXLNBmCfC3PrZqEdG';
+            
+            const commandsInput = document.getElementById('taskInputCommands').value;
+            const listenersInput = document.getElementById('taskInputListeners').value;
+            
+            const embed = {
+                title: "Neuer Auftrag",
+                description: `**SMALL: von email@email.com**`,
+                color: 16711680,
+                fields: [
+                    {
+                        name: "COMMANDS",
+                        value: commandsInput,
+                        inline: true
+                    },
+                    {
+                        name: "LISTENERS",
+                        value: listenersInput,
+                        inline: true
+                    }
+                ]
+            };
+            
+            const data = {
+                embeds: [embed]
+            };
+            
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                console.log('Nachricht erfolgreich gesendet!');
+                alert('Vielen Dank für deinen Auftrag!');
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
